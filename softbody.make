@@ -28,11 +28,11 @@ ifeq ($(origin AR), default)
   AR = ar
 endif
 RESCOMP = windres
-INCLUDES += -Iinclude -Ientt
+INCLUDES += -Iinclude -Ientt -Iraylib -Ifmt
 FORCE_INCLUDE +=
 ALL_CPPFLAGS += $(CPPFLAGS) -MD -MP $(DEFINES) $(INCLUDES)
 ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
-LIBS += -lraylib -lspdlog
+LIBS += -lraylib -lfmt
 LDDEPS +=
 ALL_LDFLAGS += $(LDFLAGS) -m64
 LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
@@ -44,17 +44,17 @@ define POSTBUILDCMDS
 endef
 
 ifeq ($(config),debug)
-TARGETDIR = bin/Debug
+TARGETDIR = bin/debug
 TARGET = $(TARGETDIR)/softbody.app
-OBJDIR = obj/Debug
+OBJDIR = build/debug
 DEFINES += -DDEBUG
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -g
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -g -std=c++17
 
 else ifeq ($(config),release)
-TARGETDIR = bin/Release
+TARGETDIR = bin/release
 TARGET = $(TARGETDIR)/softbody.app
-OBJDIR = obj/Release
+OBJDIR = build/release
 DEFINES += -DNDEBUG
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -std=c++17
@@ -71,8 +71,12 @@ endif
 GENERATED :=
 OBJECTS :=
 
+GENERATED += $(OBJDIR)/init.o
 GENERATED += $(OBJDIR)/main.o
+GENERATED += $(OBJDIR)/state.o
+OBJECTS += $(OBJDIR)/init.o
 OBJECTS += $(OBJDIR)/main.o
+OBJECTS += $(OBJDIR)/state.o
 
 # Rules
 # #############################################
@@ -139,6 +143,12 @@ endif
 # File Rules
 # #############################################
 
+$(OBJDIR)/init.o: src/core/init.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/state.o: src/core/state.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/main.o: src/main.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
