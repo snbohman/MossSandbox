@@ -3,7 +3,7 @@
 #include <includes.hpp>
 
 
-namespace Player {
+namespace Ball {
 
 void update(entt::registry& registry);
 

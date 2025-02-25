@@ -4,11 +4,11 @@
       "targetFPS": 60,
       "title": "softbody"
     },
-    "player": {
+    "ball": {
       "position": [200, 200],
       "velocity": [0, 0],
-      "acceleration": 1,
-      "size": [50, 50],
+      "acceleration": 5,
+      "radius": 10,
       "color": [1, 0, 0, 1]
     }
 }

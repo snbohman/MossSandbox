@@ -13,6 +13,7 @@ void init(entt::registry& registry) {
 }
 
 void initRaylib(const json& gameConfig) {
+    raylib::SetTraceLogLevel(raylib::LOG_WARNING);
     raylib::InitWindow(
         gameConfig["core"]["windowDimensions"][0].get<glm::u16>(),
         gameConfig["core"]["windowDimensions"][1].get<glm::u16>(),
@@ -22,9 +23,13 @@ void initRaylib(const json& gameConfig) {
 }
 
 void initEntt(const json& gameConfig, entt::registry& registry) {
-    entt::entity player = registry.create();
-    registry.emplace<PlayerTag>(player);
-    registry.emplace<Transform>(player, utils::jsonToVec2<glm::f32vec2>(gameConfig["player"]["position"]), utils::jsonToVec2<glm::f32vec2>(gameConfig["player"]["size"]));
-    registry.emplace<Physics>(player, utils::jsonToVec2<glm::f32vec2>(gameConfig["player"]["velocity"]), gameConfig["player"]["acceleration"].get<glm::f32>());
-    registry.emplace<Material>(player, utils::jsonToVec4<glm::f32vec4>(gameConfig["player"]["color"]));
+    entt::entity ball = registry.create();
+
+    // Ball
+    registry.emplace<BallTag>(ball);
+    registry.emplace<CircleTransform>(ball, utils::jsonToVec2<glm::f32vec2>(gameConfig["ball"]["position"]), gameConfig["ball"]["radius"].get<glm::f32>());
+    registry.emplace<Physics>(ball, utils::jsonToVec2<glm::f32vec2>(gameConfig["ball"]["velocity"]), gameConfig["ball"]["acceleration"].get<glm::f32>());
+    registry.emplace<Material>(ball, utils::jsonToVec4<glm::f32vec4>(gameConfig["ball"]["color"]));
+
+    // Hexagon
 }

@@ -3,9 +3,26 @@
 #include <includes.hpp>
 
 
-struct Transform {
+struct RectTransform {
     glm::f32vec2 position;
     glm::f32vec2 size;
+};
+
+struct CircleTransform {
+    glm::f32vec2 position;
+    glm::f32 radius;
+};
+
+struct LineTransform {
+    glm::f32vec2 p1;
+    glm::f32vec2 p2;
+    glm::f32 thickness;
+};
+
+struct PolyTransform {
+    std::vector<glm::f32vec2> points;
+    glm::f32 thickness;
+    bool fill;
 };
 
 struct Physics {

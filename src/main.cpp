@@ -1,6 +1,6 @@
 #include <includes.hpp>
 #include <core/init.hpp>
-#include <player/systems.hpp>
+#include <ball/systems.hpp>
 #include <render/systems.hpp>
 
 int main() {
@@ -8,7 +8,7 @@ int main() {
     init(registry);
 
     while (!raylib::WindowShouldClose()) {
-        Player::update(registry);
+        Ball::update(registry);
         Render::update(registry);
     }
 
