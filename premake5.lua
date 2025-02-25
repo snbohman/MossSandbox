@@ -9,8 +9,8 @@ project "softbody"
     targetdir "bin/%{cfg.buildcfg}"
     objdir "build/%{cfg.buildcfg}"
 
-    files { "src/**.cpp", "src/core/**.cpp", "src/render/**.cpp", "src/player/**.cpp" }
-    includedirs { "include", "entt", "raylib", "fmt" }
+    files { "src/**.cpp" }
+    includedirs { "include", "entt", "glm", "json" }
     links { "raylib", "fmt" }
 
     filter "configurations:debug"

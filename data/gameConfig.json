@@ -1,0 +1,14 @@
+{
+    "core": {
+      "windowDimensions": [500, 500],
+      "targetFPS": 60,
+      "title": "softbody"
+    },
+    "player": {
+      "position": [200, 200],
+      "velocity": [0, 0],
+      "acceleration": 1,
+      "size": [50, 50],
+      "color": [1, 0, 0, 1]
+    }
+}

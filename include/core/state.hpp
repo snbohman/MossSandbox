@@ -14,14 +14,11 @@ public:
 
     struct StateData {
         GameState gameState;
-        float gameTime;
-        
-        StateData() : gameState(MENU), gameTime(0.0f) { }
+        StateData() : gameState(MENU) { }
     };
 
 public:
     static State& getInstance();
-
     StateData const& getState() const;
 
     template<typename Func>

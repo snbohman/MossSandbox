@@ -28,7 +28,7 @@ ifeq ($(origin AR), default)
   AR = ar
 endif
 RESCOMP = windres
-INCLUDES += -Iinclude -Ientt -Iraylib -Ifmt
+INCLUDES += -Iinclude -Ientt -Iglm -Ijson
 FORCE_INCLUDE +=
 ALL_CPPFLAGS += $(CPPFLAGS) -MD -MP $(DEFINES) $(INCLUDES)
 ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
@@ -74,9 +74,13 @@ OBJECTS :=
 GENERATED += $(OBJDIR)/init.o
 GENERATED += $(OBJDIR)/main.o
 GENERATED += $(OBJDIR)/state.o
+GENERATED += $(OBJDIR)/systems.o
+GENERATED += $(OBJDIR)/systems1.o
 OBJECTS += $(OBJDIR)/init.o
 OBJECTS += $(OBJDIR)/main.o
 OBJECTS += $(OBJDIR)/state.o
+OBJECTS += $(OBJDIR)/systems.o
+OBJECTS += $(OBJDIR)/systems1.o
 
 # Rules
 # #############################################
@@ -150,6 +154,12 @@ $(OBJDIR)/state.o: src/core/state.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/main.o: src/main.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/systems.o: src/player/systems.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/systems1.o: src/render/systems.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 
