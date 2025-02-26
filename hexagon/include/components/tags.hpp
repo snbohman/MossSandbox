@@ -6,5 +6,6 @@ namespace hexagon {
 
 struct BallTag : moss::Component { };
 struct HexTag : moss::Component { };
+struct DebugTag : moss::Component { };
 
 }

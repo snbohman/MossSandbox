@@ -1,7 +1,7 @@
 #include <moss/includes.hpp>
 #include <moss/core/init.hpp>
 #include <moss/render/systems.hpp>
-#include <core/serialization.hpp>
+#include <components/serialization.hpp>
 #include <components/tags.hpp>
 #include <hex/components.hpp>
 #include <hex/systems.hpp>
@@ -18,7 +18,6 @@ int main() {
     MAP_COMPONENT(componentMap, hexagon::RotationDevice);
     MAP_TAG(componentMap, hexagon::BallTag);
     MAP_TAG(componentMap, hexagon::HexTag);
-
     moss::initEntt(gameConfig, registry, componentMap);
 
     while (!raylib::WindowShouldClose()) {

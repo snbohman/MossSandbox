@@ -2,7 +2,7 @@
     "core": {
         "windowDimensions": [500, 500],
         "targetFPS": 60,
-        "title": "hex"
+        "title": "hexagon"
     },
     "entities": {
         "Ball": {
@@ -16,7 +16,7 @@
                 "velocity": [0, -300],
                 "acceleration": [0, 1200],
                 "mass": 1,
-                "elasticity": 0.8
+                "elasticity": 0.99
             },
             "moss::Material": {
                 "color": [1, 0, 0, 1],
