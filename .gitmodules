@@ -2,3 +2,6 @@
 	path = extern/imgui
 	url = https://github.com/ocornut/imgui
 	branch = docking
+[submodule "external/raylib-imgui"]
+	path = external/raylib-imgui
+	url = https://github.com/raylib-extras/rlImGui
