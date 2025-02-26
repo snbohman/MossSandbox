@@ -2,7 +2,7 @@
 #include <core/init.hpp>
 #include <components/components.hpp>
 #include <components/tags.hpp>
-#include <utils.hpp>
+#include <components/loadComponents.hpp>
 #include <fstream>
 
 
@@ -23,13 +23,42 @@ void initRaylib(const json& gameConfig) {
 }
 
 void initEntt(const json& gameConfig, entt::registry& registry) {
-    entt::entity ball = registry.create();
+    for (const auto& [eName, components] : gameConfig["entities"].items()) {
+        entt::entity entity = registry.create();
 
-    // Ball
-    registry.emplace<BallTag>(ball);
-    registry.emplace<CircleTransform>(ball, utils::jsonToVec2<glm::f32vec2>(gameConfig["ball"]["position"]), gameConfig["ball"]["radius"].get<glm::f32>());
-    registry.emplace<Physics>(ball, utils::jsonToVec2<glm::f32vec2>(gameConfig["ball"]["velocity"]), gameConfig["ball"]["acceleration"].get<glm::f32>());
-    registry.emplace<Material>(ball, utils::jsonToVec4<glm::f32vec4>(gameConfig["ball"]["color"]));
+        if (eName == "Ball") { registry.emplace<BallTag>(entity); }
+        if (eName == "Hex") { registry.emplace<HexTag>(entity); }
 
-    // Hexagon
+        for (const auto& [cName, cData] : components.items()) {
+            if (cName == "RectTransform") {
+                RectTransform transform;
+                loadComponent(cData, transform);
+                registry.emplace<RectTransform>(entity, transform);
+            } else if (cName == "CircleTransform") {
+                CircleTransform transform;
+                loadComponent(cData, transform);
+                registry.emplace<CircleTransform>(entity, transform);
+            } else if (cName == "PolyTransform") {
+                PolyTransform transform;
+                loadComponent(cData, transform);
+                registry.emplace<PolyTransform>(entity, transform);
+            } else if (cName == "RegPolyTransform") {
+                RegPolyTransform transform;
+                loadComponent(cData, transform);
+                registry.emplace<RegPolyTransform>(entity, transform);
+            } else if (cName == "Physics") {
+                Physics physics;
+                loadComponent(cData, physics);
+                registry.emplace<Physics>(entity, physics);
+            } else if (cName == "Material") {
+                Material material;
+                loadComponent(cData, material);
+                registry.emplace<Material>(entity, material);
+            } else if (cName == "RotationDevice") {
+                RotationDevice material;
+                loadComponent(cData, material);
+                registry.emplace<RotationDevice>(entity, material);
+            }
+        }
+    }
 }

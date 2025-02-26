@@ -6,6 +6,7 @@
 struct RectTransform {
     glm::f32vec2 position;
     glm::f32vec2 size;
+    glm::f32 rotation;
 };
 
 struct CircleTransform {
@@ -13,23 +14,24 @@ struct CircleTransform {
     glm::f32 radius;
 };
 
-struct LineTransform {
-    glm::f32vec2 p1;
-    glm::f32vec2 p2;
-    glm::f32 thickness;
-};
-
 struct PolyTransform {
     std::vector<glm::f32vec2> points;
-    glm::f32 thickness;
-    bool fill;
+};
+
+struct RegPolyTransform {
+    glm::f32vec2 position;
+    glm::u16 numPoints;
+    glm::f32 radius;
+    glm::f32 rotation;
 };
 
 struct Physics {
     glm::f32vec2 velocity;
-    glm::f32 acceleration;
+    glm::f32vec2 acceleration;
 };
 
 struct Material {
     glm::f32vec4 color;
+    glm::f32 thickness;
+    bool fill;
 };

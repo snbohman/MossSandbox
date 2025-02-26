@@ -72,15 +72,19 @@ GENERATED :=
 OBJECTS :=
 
 GENERATED += $(OBJDIR)/init.o
+GENERATED += $(OBJDIR)/loadComponents.o
 GENERATED += $(OBJDIR)/main.o
 GENERATED += $(OBJDIR)/state.o
 GENERATED += $(OBJDIR)/systems.o
 GENERATED += $(OBJDIR)/systems1.o
+GENERATED += $(OBJDIR)/systems2.o
 OBJECTS += $(OBJDIR)/init.o
+OBJECTS += $(OBJDIR)/loadComponents.o
 OBJECTS += $(OBJDIR)/main.o
 OBJECTS += $(OBJDIR)/state.o
 OBJECTS += $(OBJDIR)/systems.o
 OBJECTS += $(OBJDIR)/systems1.o
+OBJECTS += $(OBJDIR)/systems2.o
 
 # Rules
 # #############################################
@@ -150,16 +154,22 @@ endif
 $(OBJDIR)/systems.o: src/ball/systems.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/loadComponents.o: src/components/loadComponents.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/init.o: src/core/init.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/state.o: src/core/state.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/systems1.o: src/hex/systems.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/main.o: src/main.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-$(OBJDIR)/systems1.o: src/render/systems.cpp
+$(OBJDIR)/systems2.o: src/render/systems.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 
