@@ -9,29 +9,38 @@ ifndef verbose
 endif
 
 ifeq ($(config),debug)
-  softbody_config = debug
+  moss_config = debug
+  hexagon_config = debug
 
 else ifeq ($(config),release)
-  softbody_config = release
+  moss_config = release
+  hexagon_config = release
 
 else
   $(error "invalid configuration $(config)")
 endif
 
-PROJECTS := softbody
+PROJECTS := moss hexagon
 
 .PHONY: all clean help $(PROJECTS) 
 
 all: $(PROJECTS)
 
-softbody:
-ifneq (,$(softbody_config))
-	@echo "==== Building softbody ($(softbody_config)) ===="
-	@${MAKE} --no-print-directory -C . -f softbody.make config=$(softbody_config)
+moss:
+ifneq (,$(moss_config))
+	@echo "==== Building moss ($(moss_config)) ===="
+	@${MAKE} --no-print-directory -C . -f moss.make config=$(moss_config)
+endif
+
+hexagon: moss
+ifneq (,$(hexagon_config))
+	@echo "==== Building hexagon ($(hexagon_config)) ===="
+	@${MAKE} --no-print-directory -C . -f hexagon.make config=$(hexagon_config)
 endif
 
 clean:
-	@${MAKE} --no-print-directory -C . -f softbody.make clean
+	@${MAKE} --no-print-directory -C . -f moss.make clean
+	@${MAKE} --no-print-directory -C . -f hexagon.make clean
 
 help:
 	@echo "Usage: make [config=name] [target]"
@@ -43,6 +52,7 @@ help:
 	@echo "TARGETS:"
 	@echo "   all (default)"
 	@echo "   clean"
-	@echo "   softbody"
+	@echo "   moss"
+	@echo "   hexagon"
 	@echo ""
 	@echo "For more information, see https://github.com/premake/premake-core/wiki"
