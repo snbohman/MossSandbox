@@ -8,7 +8,7 @@ namespace hexagon {
 namespace ball {
 
 void update(entt::registry& registry);
-bool collide(const moss::CircleTransform& ball, const moss::RegPolyTransform& hex, glm::f32vec2& hitLine);
+bool collide(const moss::CircleTransform& ball, const moss::RegPolyTransform& hex, glm::f32vec2& normal1);
 
 } // ball
 } // hexagon

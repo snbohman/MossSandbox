@@ -13,7 +13,7 @@ void hexagon::ball::update(entt::registry& registry) {
     entt::entity hex = *registry.view<hexagon::HexTag>().begin();
     moss::RegPolyTransform& hexTransform = registry.get<moss::RegPolyTransform>(hex);
 
-    glm::f32vec2 normal;
+    glm::f32vec2 normal = {0, 0};
     if (hexagon::ball::collide(ballTransform, hexTransform, normal)) {
         glm::f32 dot = glm::dot(ballPhysics.velocity, normal);
         glm::f32vec2 reflection = ballPhysics.velocity - 2.0f * dot * normal;
@@ -38,24 +38,21 @@ bool hexagon::ball::collide(const moss::CircleTransform& ball, const moss::RegPo
         });
     }
 
+    glm::f32 d = ball.radius + 1;
     for (int i = 0; i < hex.numPoints; i++) {
         glm::f32vec2 start = vertices[i];
         glm::f32vec2 end = vertices[(i + 1) % hex.numPoints]; // Wrap from last to first with mod
         glm::f32 distance = moss::utils::math::distancePointToLine(ball.position, start, end);
-        if (distance <= ball.radius) {
+        if (distance <= ball.radius && distance < d) {
+            d = distance;
             glm::f32vec2 hitLine = start - end;
 
             // Choosing the normal that points inwards
             glm::f32vec2 normalx = glm::normalize(glm::f32vec2(-hitLine.y, hitLine.x) * raylib::GetFrameTime());
             glm::f32vec2 normaly = glm::normalize(glm::f32vec2(hitLine.y, -hitLine.x) * raylib::GetFrameTime());
-            if (glm::dot(normalx, hex.position - ball.position) < 0) normal = normalx;
-            else normal = normaly;
-
-            return true;
+            normal = glm::dot(normalx, hex.position - ball.position) < 0 ? normalx : normaly;
         }
     }
 
-
-
-    return false;
+    return normal != glm::f32vec2(0, 0);
 }
