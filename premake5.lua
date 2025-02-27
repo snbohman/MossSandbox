@@ -2,6 +2,7 @@ workspace "mossSandbox"
     configurations { "debug", "release" }
     architecture "x86_64"
     includedirs { "moss/include", "entt" }
+    links { "raylib", "fmt" }
 
     project "moss"
         kind "StaticLib"
@@ -11,7 +12,6 @@ workspace "mossSandbox"
         objdir "build/%{cfg.buildcfg}"
 
         files { "moss/src/**.cpp" }
-        links { "raylib", "fmt" }
 
         filter "configurations:debug"
             defines { "DEBUG" }
@@ -29,8 +29,8 @@ workspace "mossSandbox"
         objdir "build/%{cfg.buildcfg}"
 
         files { "hexagon/src/**.cpp" }
-        includedirs { "hexagon/include", "entt" }
-        links { "moss", "raylib", "fmt" }
+        includedirs { "hexagon/include" }
+        links { "moss" }
 
         filter "configurations:debug"
             defines { "DEBUG" }

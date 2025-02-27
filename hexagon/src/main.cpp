@@ -14,11 +14,11 @@ int main() {
     const json& gameConfig = json::parse(std::ifstream("hexagon/data/gameConfig.json"));
     moss::initRaylib(gameConfig);
 
-    moss::ComponentMap componentMap; moss::buildComponentMap(registry, componentMap);
-    MAP_COMPONENT(componentMap, hexagon::RotationDevice);
-    MAP_TAG(componentMap, hexagon::BallTag);
-    MAP_TAG(componentMap, hexagon::HexTag);
-    moss::initEntt(gameConfig, registry, componentMap);
+    moss::ComponentRegistry componentRegistry; moss::buildComponentRegistry(registry, componentRegistry);
+    moss::registerComponent<hexagon::RotationDevice>(registry, componentRegistry, "hexagon::RotationDevice");
+    moss::registerTag<hexagon::BallTag>(registry, componentRegistry, "hexagon::BallTag");
+    moss::registerTag<hexagon::HexTag>(registry, componentRegistry, "hexagon::HexTag");
+    moss::initEntt(gameConfig, registry, componentRegistry);
 
     while (!raylib::WindowShouldClose()) {
         hexagon::hex::update(registry);

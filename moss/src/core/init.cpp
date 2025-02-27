@@ -14,20 +14,19 @@ void moss::initRaylib(const json& gameConfig) {
     raylib::SetTargetFPS(gameConfig["core"]["targetFPS"].get<glm::u16>());
 }
 
-void moss::initEntt(const json& gameConfig, entt::registry& registry, const moss::ComponentMap& componentMap /* = {0, 0} */ ) {
+void moss::initEntt(const json& gameConfig, entt::registry& registry, const moss::ComponentRegistry& componentRegistry) {
     for (const auto& [eName, components] : gameConfig["entities"].items()) {
         entt::entity entity = registry.create();
 
         for (const auto& [cName, cData] : components.items()) {
-            auto it = componentMap.find(cName);
-            if (it != componentMap.end()) {
-                it->second(entity, cData);
-            }
+            auto it = componentRegistry.find(cName);
+            if (it == componentRegistry.end()) continue;
+            it->second(entity, cData);
         }
     }
 }
 
-void moss::buildComponentMap(entt::registry& registry, moss::ComponentMap& componentMap) {
+void moss::buildComponentRegistry(entt::registry& registry, moss::ComponentRegistry& componentMap) {
     componentMap = {
         FILL_COMPONENT_DATA(moss::RectTransform),
         FILL_COMPONENT_DATA(moss::CircleTransform),
