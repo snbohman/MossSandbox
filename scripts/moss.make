@@ -28,7 +28,7 @@ ifeq ($(origin AR), default)
   AR = ar
 endif
 RESCOMP = windres
-INCLUDES += -Imoss/include -Ientt
+INCLUDES += -I../moss/include -I../entt
 FORCE_INCLUDE +=
 ALL_CPPFLAGS += $(CPPFLAGS) -MD -MP $(DEFINES) $(INCLUDES)
 ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
@@ -44,17 +44,17 @@ define POSTBUILDCMDS
 endef
 
 ifeq ($(config),debug)
-TARGETDIR = bin/debug
+TARGETDIR = ../bin/debug
 TARGET = $(TARGETDIR)/libmoss.a
-OBJDIR = build/debug/debug/moss
+OBJDIR = ../build/debug/debug/moss
 DEFINES += -DDEBUG
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -g
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -g -std=c++17
 
 else ifeq ($(config),release)
-TARGETDIR = bin/release
+TARGETDIR = ../bin/release
 TARGET = $(TARGETDIR)/libmoss.a
-OBJDIR = build/release/release/moss
+OBJDIR = ../build/release/release/moss
 DEFINES += -DNDEBUG
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -std=c++17
@@ -140,13 +140,13 @@ endif
 # File Rules
 # #############################################
 
-$(OBJDIR)/init.o: moss/src/core/init.cpp
+$(OBJDIR)/init.o: ../moss/src/core/init.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-$(OBJDIR)/state.o: moss/src/core/state.cpp
+$(OBJDIR)/state.o: ../moss/src/core/state.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-$(OBJDIR)/systems.o: moss/src/render/systems.cpp
+$(OBJDIR)/systems.o: ../moss/src/render/systems.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 

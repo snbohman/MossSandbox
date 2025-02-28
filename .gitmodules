@@ -4,3 +4,6 @@
 [submodule "external/imgui"]
 	path = external/imgui
 	url = https://github.com/ocornut/imgui
+[submodule "moss"]
+	path = moss
+	url = https://github.com/coding610/moss

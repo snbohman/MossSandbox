@@ -28,7 +28,7 @@ ifeq ($(origin AR), default)
   AR = ar
 endif
 RESCOMP = windres
-INCLUDES += -Imoss/include -Ientt -Ihexagon/include
+INCLUDES += -I../moss/include -I../entt -I../hexagon/include
 FORCE_INCLUDE +=
 ALL_CPPFLAGS += $(CPPFLAGS) -MD -MP $(DEFINES) $(INCLUDES)
 ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
@@ -42,24 +42,24 @@ define POSTBUILDCMDS
 endef
 
 ifeq ($(config),debug)
-TARGETDIR = bin/debug
+TARGETDIR = ../bin/debug
 TARGET = $(TARGETDIR)/hexagon.app
-OBJDIR = build/debug/debug/hexagon
+OBJDIR = ../build/debug/debug/hexagon
 DEFINES += -DDEBUG
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -g
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -g -std=c++17
-LIBS += bin/debug/libmoss.a -lraylib -lfmt
-LDDEPS += bin/debug/libmoss.a
+LIBS += ../bin/debug/libmoss.a -lraylib -lfmt
+LDDEPS += ../bin/debug/libmoss.a
 
 else ifeq ($(config),release)
-TARGETDIR = bin/release
+TARGETDIR = ../bin/release
 TARGET = $(TARGETDIR)/hexagon.app
-OBJDIR = build/release/release/hexagon
+OBJDIR = ../build/release/release/hexagon
 DEFINES += -DNDEBUG
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -std=c++17
-LIBS += bin/release/libmoss.a -lraylib -lfmt
-LDDEPS += bin/release/libmoss.a
+LIBS += ../bin/release/libmoss.a -lraylib -lfmt
+LDDEPS += ../bin/release/libmoss.a
 
 endif
 
@@ -145,13 +145,13 @@ endif
 # File Rules
 # #############################################
 
-$(OBJDIR)/systems.o: hexagon/src/ball/systems.cpp
+$(OBJDIR)/systems.o: ../hexagon/src/ball/systems.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-$(OBJDIR)/systems1.o: hexagon/src/hex/systems.cpp
+$(OBJDIR)/systems1.o: ../hexagon/src/hex/systems.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-$(OBJDIR)/main.o: hexagon/src/main.cpp
+$(OBJDIR)/main.o: ../hexagon/src/main.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 

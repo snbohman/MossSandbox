@@ -1,8 +1,27 @@
 workspace "mossSandbox"
     configurations { "debug", "release" }
     architecture "x86_64"
+    location "scripts"
     includedirs { "moss/include", "entt" }
     links { "raylib", "fmt" }
+
+    -- project "rls"
+    --     kind "StaticLib"
+    --     language "C++"
+    --     cppdialect "C++17"
+    --     targetdir "bin/%{cfg.buildcfg}"
+    --     objdir "build/%{cfg.buildcfg}"
+    --
+    --     files { "rls/src/**.cpp" }
+    --     includedirs { "rls/include" }
+    --
+    --     filter "configurations:debug"
+    --         defines { "DEBUG" }
+    --         symbols "On"
+    --
+    --     filter "configurations:release"
+    --         defines { "NDEBUG" }
+    --         optimize "On"
 
     project "moss"
         kind "StaticLib"
