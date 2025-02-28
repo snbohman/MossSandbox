@@ -1,7 +1,6 @@
 #include <moss/components/components.hpp>
-#include <components/tags.hpp>
-#include <hex/systems.hpp>
-#include <hex/components.hpp>
+#include <hexagon/components/components.hpp>
+#include <hexagon/entities/systems.hpp>
 
 
 void hexagon::hex::update(entt::registry& registry) {

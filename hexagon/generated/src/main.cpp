@@ -1,11 +1,8 @@
 #include <moss/includes.hpp>
 #include <moss/core/init.hpp>
 #include <moss/render/systems.hpp>
-#include <components/serialization.hpp>
-#include <components/tags.hpp>
-#include <hex/components.hpp>
-#include <hex/systems.hpp>
-#include <ball/systems.hpp>
+#include <hexagon/components/serialization.hpp>
+#include <hexagon/entities/systems.hpp>
 #include <fstream>
 
 

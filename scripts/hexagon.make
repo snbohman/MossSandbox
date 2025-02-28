@@ -28,11 +28,13 @@ ifeq ($(origin AR), default)
   AR = ar
 endif
 RESCOMP = windres
-INCLUDES += -I../moss/include -I../entt -I../hexagon/include
+INCLUDES += -I../moss/include -I../entt -I../hexagon/generated/include
 FORCE_INCLUDE +=
 ALL_CPPFLAGS += $(CPPFLAGS) -MD -MP $(DEFINES) $(INCLUDES)
 ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
-ALL_LDFLAGS += $(LDFLAGS) -m64
+LIBS += -lmoss -lraylib -lfmt
+LDDEPS +=
+ALL_LDFLAGS += $(LDFLAGS) -L../moss/bin/debug -m64
 LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
 define PREBUILDCMDS
 endef
@@ -44,22 +46,18 @@ endef
 ifeq ($(config),debug)
 TARGETDIR = ../bin/debug
 TARGET = $(TARGETDIR)/hexagon.app
-OBJDIR = ../build/debug/debug/hexagon
+OBJDIR = ../build/debug
 DEFINES += -DDEBUG
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -g
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -g -std=c++17
-LIBS += ../bin/debug/libmoss.a -lraylib -lfmt
-LDDEPS += ../bin/debug/libmoss.a
 
 else ifeq ($(config),release)
 TARGETDIR = ../bin/release
 TARGET = $(TARGETDIR)/hexagon.app
-OBJDIR = ../build/release/release/hexagon
+OBJDIR = ../build/release
 DEFINES += -DNDEBUG
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -std=c++17
-LIBS += ../bin/release/libmoss.a -lraylib -lfmt
-LDDEPS += ../bin/release/libmoss.a
 
 endif
 
@@ -73,12 +71,12 @@ endif
 GENERATED :=
 OBJECTS :=
 
+GENERATED += $(OBJDIR)/ball.o
+GENERATED += $(OBJDIR)/hex.o
 GENERATED += $(OBJDIR)/main.o
-GENERATED += $(OBJDIR)/systems.o
-GENERATED += $(OBJDIR)/systems1.o
+OBJECTS += $(OBJDIR)/ball.o
+OBJECTS += $(OBJDIR)/hex.o
 OBJECTS += $(OBJDIR)/main.o
-OBJECTS += $(OBJDIR)/systems.o
-OBJECTS += $(OBJDIR)/systems1.o
 
 # Rules
 # #############################################
@@ -145,13 +143,13 @@ endif
 # File Rules
 # #############################################
 
-$(OBJDIR)/systems.o: ../hexagon/src/ball/systems.cpp
+$(OBJDIR)/main.o: ../hexagon/generated/src/main.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-$(OBJDIR)/systems1.o: ../hexagon/src/hex/systems.cpp
+$(OBJDIR)/ball.o: ../hexagon/src/ball.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-$(OBJDIR)/main.o: ../hexagon/src/main.cpp
+$(OBJDIR)/hex.o: ../hexagon/src/hex.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 

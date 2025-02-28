@@ -1,33 +1,10 @@
 #include <moss/includes.hpp>
 #include <moss/components/components.hpp>
 #include <moss/utils.hpp>
-#include <ball/systems.hpp>
-#include <components/tags.hpp>
+#include <hexagon/entities/systems.hpp>
+#include <hexagon/components/components.hpp>
 
-
-void hexagon::ball::update(entt::registry& registry) {
-    entt::entity ball = *registry.view<hexagon::BallTag>().begin();
-    moss::CircleTransform& ballTransform = registry.get<moss::CircleTransform>(ball);
-    moss::Physics& ballPhysics = registry.get<moss::Physics>(ball);
-
-    entt::entity hex = *registry.view<hexagon::HexTag>().begin();
-    moss::RegPolyTransform& hexTransform = registry.get<moss::RegPolyTransform>(hex);
-
-    glm::f32vec2 normal = {0, 0};
-    if (hexagon::ball::collide(ballTransform, hexTransform, normal)) {
-        glm::f32 dot = glm::dot(ballPhysics.velocity, normal);
-        glm::f32vec2 reflection = ballPhysics.velocity - 2.0f * dot * normal;
-        
-        ballPhysics.velocity = reflection * ballPhysics.elasticity;
-        ballTransform.position += ballPhysics.velocity * raylib::GetFrameTime();
-    } else {
-        ballPhysics.velocity += ballPhysics.acceleration * raylib::GetFrameTime();
-        ballTransform.position += ballPhysics.velocity * raylib::GetFrameTime();
-    }
-
-}
-
-bool hexagon::ball::collide(const moss::CircleTransform& ball, const moss::RegPolyTransform& hex, glm::f32vec2& normal) {
+bool collide(const moss::CircleTransform& ball, const moss::RegPolyTransform& hex, glm::f32vec2& normal) {
     std::vector<glm::f32vec2> vertices; vertices.reserve(hex.numPoints);
     for (int i = 0; i < hex.numPoints; i++) {
         glm::f32 innerAngle = 2 * M_PI / hex.numPoints;
@@ -55,4 +32,26 @@ bool hexagon::ball::collide(const moss::CircleTransform& ball, const moss::RegPo
     }
 
     return normal != glm::f32vec2(0, 0);
+}
+
+void hexagon::ball::update(entt::registry& registry) {
+    entt::entity ball = *registry.view<hexagon::BallTag>().begin();
+    moss::CircleTransform& ballTransform = registry.get<moss::CircleTransform>(ball);
+    moss::Physics& ballPhysics = registry.get<moss::Physics>(ball);
+
+    entt::entity hex = *registry.view<hexagon::HexTag>().begin();
+    moss::RegPolyTransform& hexTransform = registry.get<moss::RegPolyTransform>(hex);
+
+    glm::f32vec2 normal = {0, 0};
+    if (collide(ballTransform, hexTransform, normal)) {
+        glm::f32 dot = glm::dot(ballPhysics.velocity, normal);
+        glm::f32vec2 reflection = ballPhysics.velocity - 2.0f * dot * normal;
+        
+        ballPhysics.velocity = reflection * ballPhysics.elasticity;
+        ballTransform.position += ballPhysics.velocity * raylib::GetFrameTime();
+    } else {
+        ballPhysics.velocity += ballPhysics.acceleration * raylib::GetFrameTime();
+        ballTransform.position += ballPhysics.velocity * raylib::GetFrameTime();
+    }
+
 }
