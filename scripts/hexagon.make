@@ -28,13 +28,13 @@ ifeq ($(origin AR), default)
   AR = ar
 endif
 RESCOMP = windres
-INCLUDES += -I../moss/include -I../entt -I../hexagon/generated/include
+INCLUDES += -I../../mossCore/include -I../entt -I../hexagon/generated/include
 FORCE_INCLUDE +=
 ALL_CPPFLAGS += $(CPPFLAGS) -MD -MP $(DEFINES) $(INCLUDES)
 ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
-LIBS += -lmoss -lraylib -lfmt
+LIBS += -lmossCore -lraylib -lfmt
 LDDEPS +=
-ALL_LDFLAGS += $(LDFLAGS) -L../moss/bin/debug -m64
+ALL_LDFLAGS += $(LDFLAGS) -L../../mossCore/bin/debug -m64
 LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
 define PREBUILDCMDS
 endef

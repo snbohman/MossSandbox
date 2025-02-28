@@ -1,11 +1,11 @@
-workspace "mossSandbox"
+workspace "moss"
     configurations { "debug", "release" }
     architecture "x86_64"
     location "scripts"
 
-    includedirs { "moss/include", "entt" }
-    libdirs { "moss/bin/debug" }
-    links { "moss", "raylib", "fmt" }
+    includedirs { "../mossCore/include", "entt" }
+    libdirs { "../mossCore/bin/debug" }
+    links { "mossCore", "raylib", "fmt" }
 
     project "hexagon"
         kind "WindowedApp"

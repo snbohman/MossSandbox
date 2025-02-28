@@ -1,9 +1,0 @@
-[submodule "external/raylib-imgui"]
-	path = external/raylib-imgui
-	url = https://github.com/raylib-extras/rlImGui
-[submodule "external/imgui"]
-	path = external/imgui
-	url = https://github.com/ocornut/imgui
-[submodule "moss"]
-	path = moss
-	url = https://github.com/coding610/moss
