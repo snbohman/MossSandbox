@@ -1,5 +1,5 @@
 bin
 build
+.cache
 compile_flags.txt
 *.o
-.cache
