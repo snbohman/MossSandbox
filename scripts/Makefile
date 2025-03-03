@@ -10,12 +10,9 @@ endif
 
 ifeq ($(config),debug)
   hexagon_config = debug
-
-else ifeq ($(config),release)
+endif
+ifeq ($(config),release)
   hexagon_config = release
-
-else
-  $(error "invalid configuration $(config)")
 endif
 
 PROJECTS := hexagon

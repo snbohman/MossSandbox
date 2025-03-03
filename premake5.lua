@@ -2,6 +2,8 @@ workspace "moss"
     configurations { "debug", "release" }
     architecture "x86_64"
     location "scripts"
+    toolset "clang"
+    buildoptions { "-Wno-macro-redefined"}
 
     includedirs { "../mossCore/include", "entt" }
     libdirs { "../mossCore/bin/debug" }
@@ -14,8 +16,8 @@ workspace "moss"
         targetdir "bin/%{cfg.buildcfg}"
         objdir "build/%{cfg.buildcfg}"
 
-        files { "hexagon/src/**.cpp", "hexagon/generated/src/**.cpp" }
-        includedirs { "hexagon/generated/include" }
+        files { "hexagon/**.cpp" }
+        includedirs { "hexagon/generated/include", "hexagon/user/include" }
 
         filter "configurations:debug"
             defines { "DEBUG" }

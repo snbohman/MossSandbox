@@ -1,6 +1,6 @@
 #pragma once
 
-#include <moss/components/components.hpp>
+#include <moss/ecs/components.hpp>
 
 
 namespace hexagon {

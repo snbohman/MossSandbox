@@ -1,27 +1,27 @@
-#include <moss/includes.hpp>
-#include <moss/core/init.hpp>
-#include <moss/render/systems.hpp>
-#include <hexagon/components/serialization.hpp>
-#include <hexagon/entities/systems.hpp>
-#include <fstream>
+#include <moss/core/app.hpp>
+#include <moss/defines.hpp>
+#include <hexagon/ecs/components.hpp>
+#include <ball.hpp>
+#include <hex.hpp>
 
 
 int main() {
-    entt::registry registry;
-    const json& gameConfig = json::parse(std::ifstream("hexagon/data/gameConfig.json"));
-    moss::initRaylib(gameConfig);
+    spdlog::set_level(spdlog::level::info);
+    moss::App app;
 
-    moss::ComponentRegistry componentRegistry; moss::buildComponentRegistry(registry, componentRegistry);
+    /* -- Registration -- */
+    moss::types::ComponentRegistry componentRegistry;
+    app.buildComponentRegistry(componentRegistry);
     REGISTER_COMPONENT(hexagon::RotationDevice);
     REGISTER_TAG(hexagon::BallTag);
     REGISTER_TAG(hexagon::HexTag);
-    moss::initEntt(gameConfig, registry, componentRegistry);
+    REGISTER_SYSTEM(hexagon::BallSystem);
+    REGISTER_SYSTEM(hexagon::HexSystem);
+    app.setComponentRegistry(componentRegistry);
 
-    while (!raylib::WindowShouldClose()) {
-        hexagon::hex::update(registry);
-        hexagon::ball::update(registry);
-        moss::render::update(registry);
-    }
+    /* -- Scenes -- */
+    app.addScene("scene1", true);
 
-    raylib::CloseWindow();
+    /* -- Run -- */
+    app.run();
 }

@@ -1,8 +1,8 @@
 #include <moss/includes.hpp>
-#include <moss/components/components.hpp>
 #include <moss/utils.hpp>
-#include <hexagon/entities/systems.hpp>
-#include <hexagon/components/components.hpp>
+#include <moss/ecs/components.hpp>
+#include <hexagon/ecs/components.hpp>
+#include <ball.hpp>
 
 bool collide(const moss::CircleTransform& ball, const moss::RegPolyTransform& hex, glm::f32vec2& normal) {
     std::vector<glm::f32vec2> vertices; vertices.reserve(hex.numPoints);
@@ -34,7 +34,7 @@ bool collide(const moss::CircleTransform& ball, const moss::RegPolyTransform& he
     return normal != glm::f32vec2(0, 0);
 }
 
-void hexagon::ball::update(entt::registry& registry) {
+void hexagon::BallSystem::tick(entt::registry& registry) {
     entt::entity ball = *registry.view<hexagon::BallTag>().begin();
     moss::CircleTransform& ballTransform = registry.get<moss::CircleTransform>(ball);
     moss::Physics& ballPhysics = registry.get<moss::Physics>(ball);
@@ -53,5 +53,4 @@ void hexagon::ball::update(entt::registry& registry) {
         ballPhysics.velocity += ballPhysics.acceleration * raylib::GetFrameTime();
         ballTransform.position += ballPhysics.velocity * raylib::GetFrameTime();
     }
-
 }

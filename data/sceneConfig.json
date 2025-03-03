@@ -1,0 +1,47 @@
+{
+    "scene1": {
+        "entities": {
+            "Ball": {
+                "hexagon::BallSystem": { },
+                "hexagon::BallTag": { },
+
+                "moss::CircleTransform": {
+                    "position": [400, 400],
+                    "radius": 15,
+                    "rotation": 0
+                },
+                "moss::Physics": {
+                    "velocity": [0, -300],
+                    "acceleration": [0, 1200],
+                    "mass": 1,
+                    "elasticity": 0.99
+                },
+                "moss::Material": {
+                    "color": [1, 0, 0, 1],
+                    "fill": true,
+                    "thickness": 0
+                }
+            },
+            "Hex": {
+                "hexagon::HexSystem": { },
+                "hexagon::HexTag": { },
+
+                "moss::RegPolyTransform": {
+                    "position": [400, 400],
+                    "numPoints": 6,
+                    "radius": 300,
+                    "rotation": 0
+                },
+                "moss::Material": {
+                    "color": [1, 1, 1, 1],
+                    "fill": false,
+                    "thickness": 1
+                },
+                "hexagon::RotationDevice": {
+                    "rotationSpeed": 0.1,
+                    "clockWise": true
+                }
+            }
+        }
+    }
+}
