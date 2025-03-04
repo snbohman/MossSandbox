@@ -1,5 +1,5 @@
 {
-    "windowConfig": {
+    "window": {
         "windowDimensions": [800, 800],
         "targetFPS": 60,
         "title": "hexagon"

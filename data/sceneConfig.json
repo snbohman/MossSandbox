@@ -4,6 +4,7 @@
             "Ball": {
                 "hexagon::BallSystem": { },
                 "hexagon::BallTag": { },
+                "moss::CircleRenderable": { },
 
                 "moss::CircleTransform": {
                     "position": [400, 400],
@@ -25,6 +26,7 @@
             "Hex": {
                 "hexagon::HexSystem": { },
                 "hexagon::HexTag": { },
+                "moss::RegPolyRenderable": { },
 
                 "moss::RegPolyTransform": {
                     "position": [400, 400],

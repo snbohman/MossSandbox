@@ -8,7 +8,7 @@ namespace hexagon {
 
 class HexSystem : public moss::System {
 public:
-    void tick(entt::registry& registry) override;
+    void tick(moss::SystemTickCrate crate) override;
 };
 
 }; // hexagon

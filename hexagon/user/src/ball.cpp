@@ -34,13 +34,12 @@ bool collide(const moss::CircleTransform& ball, const moss::RegPolyTransform& he
     return normal != glm::f32vec2(0, 0);
 }
 
-void hexagon::BallSystem::tick(entt::registry& registry) {
-    entt::entity ball = *registry.view<hexagon::BallTag>().begin();
-    moss::CircleTransform& ballTransform = registry.get<moss::CircleTransform>(ball);
-    moss::Physics& ballPhysics = registry.get<moss::Physics>(ball);
+void hexagon::BallSystem::tick(moss::SystemTickCrate crate) {
+    moss::CircleTransform& ballTransform = crate.registry.get<moss::CircleTransform>(crate.entity);
+    moss::Physics& ballPhysics = crate.registry.get<moss::Physics>(crate.entity);
 
-    entt::entity hex = *registry.view<hexagon::HexTag>().begin();
-    moss::RegPolyTransform& hexTransform = registry.get<moss::RegPolyTransform>(hex);
+    entt::entity hex = *crate.registry.view<hexagon::HexTag>().begin();
+    moss::RegPolyTransform& hexTransform = crate.registry.get<moss::RegPolyTransform>(hex);
 
     glm::f32vec2 normal = {0, 0};
     if (collide(ballTransform, hexTransform, normal)) {

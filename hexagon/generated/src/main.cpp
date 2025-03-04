@@ -1,11 +1,13 @@
-#include <moss/core/app.hpp>
 #include <moss/defines.hpp>
+#include <moss/core/app.hpp>
+#include <hexagon/ecs/serialization.hpp>
 #include <hexagon/ecs/components.hpp>
 #include <ball.hpp>
 #include <hex.hpp>
 
 
 int main() {
+    /* -- App -- */
     spdlog::set_level(spdlog::level::info);
     moss::App app;
 
@@ -15,8 +17,8 @@ int main() {
     REGISTER_COMPONENT(hexagon::RotationDevice);
     REGISTER_TAG(hexagon::BallTag);
     REGISTER_TAG(hexagon::HexTag);
-    REGISTER_SYSTEM(hexagon::BallSystem);
-    REGISTER_SYSTEM(hexagon::HexSystem);
+    REGISTER_SYSTEM(hexagon::BallSystem, {});
+    REGISTER_SYSTEM(hexagon::HexSystem, {});
     app.setComponentRegistry(componentRegistry);
 
     /* -- Scenes -- */

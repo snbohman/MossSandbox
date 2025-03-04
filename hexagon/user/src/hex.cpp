@@ -1,12 +1,12 @@
 #include <moss/ecs/components.hpp>
 #include <hexagon/ecs/components.hpp>
+#include <moss/ecs/systems.hpp>
 #include <hex.hpp>
 
 
-void hexagon::HexSystem::tick(entt::registry& registry) {
-    entt::entity hexagon = *registry.view<hexagon::HexTag>().begin();
-    moss::RegPolyTransform& transform = registry.get<moss::RegPolyTransform>(hexagon);
-    hexagon::RotationDevice& device = registry.get<hexagon::RotationDevice>(hexagon);
+void hexagon::HexSystem::tick(moss::SystemTickCrate crate) {
+    moss::RegPolyTransform& transform = crate.registry.get<moss::RegPolyTransform>(crate.entity);
+    hexagon::RotationDevice& device = crate.registry.get<hexagon::RotationDevice>(crate.entity);
 
     transform.rotation += device.rotationSpeed * (device.clockWise ? 1 : -1);
 }
