@@ -3,6 +3,7 @@
 #include <moss/ecs/components.hpp>
 #include <hexagon/ecs/components.hpp>
 #include <ball.hpp>
+#include <hex.hpp>
 
 bool collide(const moss::CircleTransform& ball, const moss::RegPolyTransform& hex, glm::f32vec2& normal) {
     std::vector<glm::f32vec2> vertices; vertices.reserve(hex.numPoints);
@@ -47,9 +48,9 @@ void hexagon::BallSystem::tick(moss::SystemTickCrate crate) {
         glm::f32vec2 reflection = ballPhysics.velocity - 2.0f * dot * normal;
         
         ballPhysics.velocity = reflection * ballPhysics.elasticity;
-        ballTransform.position += ballPhysics.velocity * raylib::GetFrameTime();
+        ballTransform.position += ballPhysics.velocity * crate.deltaTime;
     } else {
-        ballPhysics.velocity += ballPhysics.acceleration * raylib::GetFrameTime();
-        ballTransform.position += ballPhysics.velocity * raylib::GetFrameTime();
+        ballPhysics.velocity += ballPhysics.acceleration * crate.deltaTime;
+        ballTransform.position += ballPhysics.velocity * crate.deltaTime;
     }
 }

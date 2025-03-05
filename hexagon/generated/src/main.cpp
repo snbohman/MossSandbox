@@ -4,6 +4,7 @@
 #include <hexagon/ecs/components.hpp>
 #include <ball.hpp>
 #include <hex.hpp>
+#include <square.hpp>
 
 
 int main() {
@@ -17,8 +18,10 @@ int main() {
     REGISTER_COMPONENT(hexagon::RotationDevice);
     REGISTER_TAG(hexagon::BallTag);
     REGISTER_TAG(hexagon::HexTag);
+    REGISTER_TAG(hexagon::SquareTag);
     REGISTER_SYSTEM(hexagon::BallSystem, {});
     REGISTER_SYSTEM(hexagon::HexSystem, {});
+    REGISTER_SYSTEM(hexagon::SquareSystem, {});
     app.setComponentRegistry(componentRegistry);
 
     /* -- Scenes -- */

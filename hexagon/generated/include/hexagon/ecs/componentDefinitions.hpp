@@ -12,5 +12,6 @@ struct RotationDevice : moss::Component {
 
 struct BallTag : moss::Component { };
 struct HexTag : moss::Component { };
+struct SquareTag : moss::Component { };
 
 } // hexagon

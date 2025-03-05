@@ -43,6 +43,26 @@
                     "rotationSpeed": 0.1,
                     "clockWise": true
                 }
+            },
+            "Square": {
+                "hexagon::SquareSystem": { },
+                "hexagon::SquareTag": { },
+                "moss::RectRenderable": { },
+
+                "moss::RectTransform": {
+                    "position": [400, 400],
+                    "size": [500, 500],
+                    "rotation": 0
+                },
+                "moss::Material": {
+                    "color": [1, 1, 1, 1],
+                    "fill": false,
+                    "thickness": 1
+                },
+                "hexagon::RotationDevice": {
+                    "rotationSpeed": 0.2,
+                    "clockWise": false
+                }
             }
         }
     }
