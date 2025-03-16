@@ -1,28 +1,20 @@
-workspace "moss"
-    configurations { "debug", "release" }
-    architecture "x86_64"
-    location "scripts"
-    toolset "clang"
-    buildoptions { "-Wno-macro-redefined"}
+project "hexagon"
+    kind "WindowedApp"
+    targetdir "bin/%{cfg.buildcfg}"
+    objdir "build/%{cfg.buildcfg}"
 
-    includedirs { "../mossCore/include", "entt" }
+    files { "hexagon/**.cpp" }
+    includedirs { "hexagon/generated/include", "hexagon/user/include", "../mossCore/include", "entt" }
     libdirs { "../mossCore/bin/debug" }
     links { "mossCore", "raylib", "fmt" }
 
-    project "hexagon"
-        kind "WindowedApp"
-        language "C++"
-        cppdialect "C++17"
-        targetdir "bin/%{cfg.buildcfg}"
-        objdir "build/%{cfg.buildcfg}"
 
-        files { "hexagon/**.cpp" }
-        includedirs { "hexagon/generated/include", "hexagon/user/include" }
+project "minimal"
+    kind "WindowedApp"
+    targetdir "bin/%{cfg.buildcfg}"
+    objdir "build/%{cfg.buildcfg}"
 
-        filter "configurations:debug"
-            defines { "DEBUG" }
-            symbols "On"
-
-        filter "configurations:release"
-            defines { "NDEBUG" }
-            optimize "On"
+    files { "minimal/**.cpp" }
+    includedirs { "minimal/generated/include", "minimal/user/include", "../mossCore/include", "entt" }
+    libdirs { "../mossCore/bin/debug" }
+    links { "mossCore", "raylib", "fmt" }

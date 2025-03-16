@@ -1,0 +1,30 @@
+{
+    "scene1": {
+        "entities": {
+            "Player": {
+                "minimal::cmp::PlayerTag": { },
+                "moss::rcmp::Circle": {
+                    "transform": {
+                        "position": [200, 200],
+                        "scale": [1, 1],
+                        "rotation": 0
+                    },
+                    "material": {
+                        "albedo": [1, 1, 1, 1],
+                        "fill": true,
+                        "thickness": 0
+                    },
+                    "shape": {
+                        "radius": 200
+                    }
+                },
+
+                "moss::cmp::Transform": {
+                    "position": [400, 400],
+                    "scale": [1, 1],
+                    "rotation": 0
+                }
+            }
+        }
+    }
+}
