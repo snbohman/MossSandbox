@@ -1,6 +1,0 @@
-{
-    "renderers": {
-        "moss::render::MRLS": true,
-        "moss::render::Vulkan": false
-    }
-}
