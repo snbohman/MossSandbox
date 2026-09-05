@@ -14,10 +14,10 @@ if is_standalone then
         flags { "MultiProcessorCompile" }
         configurations { "debug", "release" }
 
-        startproject("Sandbox") -- Helpful in IDE
+        startproject("mossSandbox") -- Helpful in IDE
 end
 
-project "Sandbox"
+project "mossSandbox"
     kind "ConsoleApp"
     location "scripts"
     targetdir "bin/%{cfg.buildcfg}"
@@ -27,26 +27,17 @@ project "Sandbox"
     includedirs {
         "include",
         "../extensions/include",
-        "../core/include",
-        "../core/external/entt/single_include",
-        "../core/external/spdlog/include",
-
-        "/usr/local/include"
+        "../core/include"
     }
 
     libdirs {
-        "../core/bin/debug",
-        "/usr/local/lib"
+        "../core/bin/debug"
     }
 
     links {
-        "Core",
+        "mossCore",
+        "mossExtensions",
         "raylib",
-
-        "Cocoa.framework",
-        "OpenGL.framework",
-        "IOKit.framework",
-        "CoreVideo.framework"
     }
 
     filter "configurations:debug"
