@@ -4,3 +4,5 @@ scripts
 .cache
 compile_flags.txt
 *.o
+.envrc
+.direnv

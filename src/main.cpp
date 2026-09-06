@@ -1,3 +1,6 @@
+#include "moss/commands/primitives.hpp"
+#include "moss/core/key.hpp"
+#include "moss/extensions/raylib/components.hpp"
 #include <moss/extensions/raylib/meta.hpp>
 #include <moss/moss.hpp>
 
@@ -21,10 +24,8 @@ public:
 
         if (velx != 0 || vely != 0) {
             auto blueAtlas = moss::cmd::Query<
-                moss::With< moss::extensions::raylib::RectRenderable >,
-                moss::cmd::View<
-                    moss::Include<GreenTag>
-                >
+                moss::With < moss::extensions::raylib::RectRenderable >,
+                moss::cmd::View < moss::Include<GreenTag> >
             >::init(key).atlas();
 
             auto greenAtlas = moss::cmd::Query<
@@ -75,11 +76,20 @@ public:
     };
 };
 
+class RenderContext : public moss::Context {
+public:
+    virtual void init(moss::Mirror& mirror) {
+        mirror
+            .create().attach<moss::extensions::raylib::Window>("HELLO", 800, 800, 60)
+            .connect<moss::extensions::raylib::Renderer>();
+    };
+};
+
 
 int main() {
     moss::App app;
     app.init()
-        .mount<moss::extensions::raylib::Renderer>()
+        .mount<RenderContext>()
         .mount<CubeContext>()
         .build()
         .run()

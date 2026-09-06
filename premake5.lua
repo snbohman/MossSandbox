@@ -31,11 +31,10 @@ project "mossSandbox"
     }
 
     libdirs {
-        "../core/bin/debug"
+        "../extensions/bin/debug"
     }
 
     links {
-        "mossCore",
         "mossExtensions",
         "raylib",
     }
