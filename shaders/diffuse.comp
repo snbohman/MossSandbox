@@ -1,0 +1,27 @@
+#version 450
+
+layout(local_size_x = 16, local_size_y = 16) in;
+
+// binding 0 = read image, binding 1 = write image. With PingPong("fieldA", "fieldB")
+// and an even PassRepeat, these swap every iteration.
+layout(rgba16f, set = 0, binding = 0) uniform readonly  image2D src;
+layout(rgba16f, set = 0, binding = 1) uniform writeonly image2D dst;
+
+void main() {
+    ivec2 size = imageSize(src);
+    ivec2 p = ivec2(gl_GlobalInvocationID.xy);
+    if (p.x >= size.x || p.y >= size.y) return;
+
+    ivec2 hi = size - 1;
+    vec4 sum = imageLoad(src, clamp(p + ivec2( 1,  0), ivec2(0), hi))
+             + imageLoad(src, clamp(p + ivec2(-1,  0), ivec2(0), hi))
+             + imageLoad(src, clamp(p + ivec2( 0,  1), ivec2(0), hi))
+             + imageLoad(src, clamp(p + ivec2( 0, -1), ivec2(0), hi));
+
+    vec4 v = mix(imageLoad(src, p), sum * 0.25, 0.5);
+
+    // Constant heat source in the middle so there is something to diffuse
+    if (distance(vec2(p), vec2(size) * 0.5) < 12.0) v = vec4(1.0);
+
+    imageStore(dst, p, v);
+}

@@ -14,8 +14,8 @@
       "../build/debug/mossSandbox/main.o",
       "../src/main.cpp"
     ],
-    "directory": "/home/snbohman/dev/probe/moss/sandbox/scripts",
-    "file": "/home/snbohman/dev/probe/moss/sandbox/src/main.cpp",
-    "output": "/home/snbohman/dev/probe/moss/sandbox/build/debug/mossSandbox/main.o"
+    "directory": "/home/snbohman/dev/moss/sandbox/scripts",
+    "file": "/home/snbohman/dev/moss/sandbox/src/main.cpp",
+    "output": "/home/snbohman/dev/moss/sandbox/build/debug/mossSandbox/main.o"
   }
 ]

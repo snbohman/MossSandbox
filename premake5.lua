@@ -23,7 +23,7 @@ project "mossSandbox"
     targetdir "bin/%{cfg.buildcfg}"
     objdir "build/%{cfg.buildcfg}/%{prj.name}"
 
-    files { "src/**.cpp" }
+    files { "src/vulkan.cpp" }
     includedirs {
         "include",
         "../extensions/include",
@@ -36,7 +36,9 @@ project "mossSandbox"
 
     links {
         "mossExtensions",
-        "raylib",
+        "vulkan",
+        "vk-bootstrap",
+        "glfw"
     }
 
     filter "configurations:debug"
