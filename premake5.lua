@@ -23,7 +23,7 @@ project "mossSandbox"
     targetdir "bin/%{cfg.buildcfg}"
     objdir "build/%{cfg.buildcfg}/%{prj.name}"
 
-    files { "src/vulkan.cpp" }
+    files { "src/gradient.cpp" }
     includedirs {
         "include",
         "../extensions/include",

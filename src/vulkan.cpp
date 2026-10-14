@@ -63,7 +63,7 @@ public:
 int main() {
     moss::App app;
     app.init()
-        .mount<SimpleRenderContext>()
+        .mount<RenderContext>()
         .build()
         .run()
         .exit();
