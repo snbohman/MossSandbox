@@ -6,9 +6,11 @@ if is_standalone then
 
     workspace("MossDivided")
         language "C++"
-        cppdialect "C++20"
+        -- cppdialect "C++latest"
         architecture "x86_64"
         toolset "clang"
+
+        buildoptions { "-std=c++20" } 
 
         location "scripts"
         flags { "MultiProcessorCompile" }
@@ -23,22 +25,30 @@ project "mossSandbox"
     targetdir "bin/%{cfg.buildcfg}"
     objdir "build/%{cfg.buildcfg}/%{prj.name}"
 
-    files { "src/gradient.cpp" }
+    files { "src/gradient.cpp", "external/VkBootstrap.cpp" }
     includedirs {
         "include",
         "../extensions/include",
-        "../core/include"
+        "../core/include",
+        "external",
+        "$(VULKAN_SDK)/Include",
+        "$(GLFW_ROOT)/Include"
     }
 
     libdirs {
-        "../extensions/bin/debug"
+        "../extensions/bin/debug",
+        "external",
+        "$(VULKAN_SDK)/Lib",
+        "$(GLFW_ROOT)/lib-vc2022"
     }
 
     links {
         "mossExtensions",
-        "vulkan",
-        "vk-bootstrap",
-        "glfw"
+        "vulkan-1",
+        "glfw3",
+        "User32",
+        "Gdi32",
+        "Shell32"
     }
 
     filter "configurations:debug"
