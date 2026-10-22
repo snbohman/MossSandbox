@@ -23,7 +23,7 @@ project "mossSandbox"
     targetdir "bin/%{cfg.buildcfg}"
     objdir "build/%{cfg.buildcfg}/%{prj.name}"
 
-    files { "src/gradient.cpp" }
+    files { "src/validate.cpp" }
     includedirs {
         "include",
         "../extensions/include",

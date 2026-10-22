@@ -1,0 +1,30 @@
+#version 450
+layout(local_size_x = 16, local_size_y = 16) in;
+
+layout(rgba16f, binding = 0) uniform readonly image2D srcImage;
+layout(rgba16f, binding = 1) uniform writeonly image2D dstImage;
+
+layout(push_constant) uniform Push { float time; float width; float height; float frame; } pc;
+
+void main() {
+    ivec2 p = ivec2(gl_GlobalInvocationID.xy);
+    ivec2 size = imageSize(srcImage);
+    if (p.x >= size.x || p.y >= size.y) return;
+
+    vec4 sum = vec4(0.0);
+    for (int dy = -1; dy <= 1; dy++) {
+        for (int dx = -1; dx <= 1; dx++) {
+            ivec2 q = clamp(p + ivec2(dx, dy), ivec2(0), size - 1);
+            sum += imageLoad(srcImage, q);
+        }
+    }
+    vec4 value = sum / 9.0 * 0.995;
+
+    // A moving source keeps the field alive
+    vec2 uv = (vec2(p) + 0.5) / vec2(size);
+    vec2 center = 0.5 + 0.35 * vec2(cos(pc.time), sin(pc.time * 1.3));
+    float d = length(uv - center);
+    value += vec4(1.0, 0.6, 0.2, 0.0) * (1.0 - smoothstep(0.0, 0.03, d)) * 0.05;
+
+    imageStore(dstImage, p, value);
+}
