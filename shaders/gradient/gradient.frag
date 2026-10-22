@@ -3,12 +3,13 @@
 layout(location = 0) in vec2 uv;
 layout(location = 0) out vec4 outColor;
 
+// Must match GradientParams in gradient.cpp (6 floats, 24 bytes), same order
 layout(push_constant) uniform Push {
     float time;
-    float width;
-    float height;
     float mousex;
     float mousey;
+    float width;
+    float height;
     float pad;
 } pc;
 

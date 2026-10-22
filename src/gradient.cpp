@@ -18,11 +18,14 @@ struct GradientParams {
 class TimeSystem : public System {
 public:
     void tick(const Key<key::READ>& key) override {
-        GLFWwindow* window = cmd::Resource<
-            vk::RenderCore
-        >::init(key).get().foundation.window;
+        vk::RenderCore& core = cmd::Resource<vk::RenderCore>::init(key).get();
+
         double x, y;
-        glfwGetCursorPos(window, &x, &y);
+        glfwGetCursorPos(core.foundation.window, &x, &y);
+
+        // The draw image follows the window, so the resolution is read every frame
+        const f32 width  = static_cast<f32>(core.drawImage.imageExtent.width);
+        const f32 height = static_cast<f32>(core.drawImage.imageExtent.height);
 
         auto rows = cmd::Query<
             With<vk::PushConstants>,
@@ -30,12 +33,14 @@ public:
         >::init(key).atlas();
 
         for (auto [pc] : rows) {
-            pc.as<GradientParams>().time = static_cast<f32>(glfwGetTime());
-            pc.as<GradientParams>().mousex = static_cast<f32>(x);
-            pc.as<GradientParams>().mousey = static_cast<f32>(y);
+            GradientParams& params = pc.as<GradientParams>();
+            params.time = static_cast<f32>(glfwGetTime());
+            params.mousex = static_cast<f32>(x);
+            params.mousey = static_cast<f32>(y);
+            params.width = width;
+            params.height = height;
         }
     }
-
 };
 
 class GradientContext : public Context {
@@ -44,7 +49,7 @@ public:
         mirror
             .connect<vk::Core, vk::FrameBegin, TimeSystem, vk::PassSystem, vk::FrameEnd>()
             .create()
-                .attach<vk::WindowSettings>("moss", 1280, 720)
+                .attach<vk::WindowSettings>("moss", 1280, 720, 60, true)   // resizable
                 .attach<vk::RendererSettings>(true)
             .create()   // one graphics pass: vertex + fragment, no Bind, no Dispatch
                 .attach<vk::VertexShader>("shaders/gradient/fullscreen.vert.spv")
