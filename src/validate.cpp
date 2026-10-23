@@ -46,6 +46,7 @@ public:
             .create()
                 .attach<vk::WindowSettings>("moss validate", 1280, 720, 60, true)   // resizable
                 .attach<vk::RendererSettings>(true)
+                .attach<vk::HotReload>(500u)   // check 8: poll the SPIR-V files every 500 ms
             // Resources
             .create().attach<vk::SimImage>("fieldA").attach<vk::ImageExtent>(256u, 256u).attach<vk::DoubleBuffered>()
             .create().attach<vk::SimImage>("fieldB").attach<vk::ImageExtent>(256u, 256u).attach<vk::DoubleBuffered>()
@@ -98,6 +99,17 @@ public:
                 .attach<vk::Bind>(
                     vk::sample(0, "fieldA"), vk::sample(1, "fieldB"), vk::storage(2, "counter")
                 )
+                .attach<vk::PipelineState>(
+                    VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST, VkCullModeFlags(VK_CULL_MODE_NONE),
+                    VK_FRONT_FACE_COUNTER_CLOCKWISE, true
+                )
+                .attach<vk::PushConstants>(initial)
+            // Pass 7: hot reload target. Graphics, no Bind, drawn last (on top): a
+            // 96 px pulsing swatch in the top-right corner. Edit reload.frag while
+            // the program runs; push constants keep working after a reload
+            .create()
+                .attach<vk::VertexShader>("shaders/gradient/fullscreen.vert.spv")
+                .attach<vk::FragmentShader>("shaders/validate/reload.frag.spv")
                 .attach<vk::PipelineState>(
                     VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST, VkCullModeFlags(VK_CULL_MODE_NONE),
                     VK_FRONT_FACE_COUNTER_CLOCKWISE, true
