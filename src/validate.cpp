@@ -44,13 +44,21 @@ public:
                 vk::Core, vk::FrameBegin, vk::ImageSystem, ParamsSystem, vk::PassSystem, vk::FrameEnd
             >()
             .create()
-                .attach<vk::WindowSettings>("moss validate", 1280, 720, 60, true)   // resizable
-                .attach<vk::RendererSettings>(true)
-                .attach<vk::HotReload>(500u)   // check 8: poll the SPIR-V files every 500 ms
+                .attach<vk::WindowSettings>({.title = "moss validate", .resize = true})
+                .attach<vk::RendererSettings>()
+                .attach<vk::HotReload>(500u)   // check 8: poll the SPIR-V files
             // Resources
-            .create().attach<vk::SimImage>("fieldA").attach<vk::ImageExtent>(256u, 256u).attach<vk::DoubleBuffered>()
-            .create().attach<vk::SimImage>("fieldB").attach<vk::ImageExtent>(256u, 256u).attach<vk::DoubleBuffered>()
-            .create().attach<vk::SimBuffer>("counter", u64(256)).attach<vk::DoubleBuffered>()
+            .create()
+                .attach<vk::SimImage>("fieldA")
+                .attach<vk::ImageExtent>(256u, 256u)
+                .attach<vk::DoubleBuffered>()
+            .create()
+                .attach<vk::SimImage>("fieldB")
+                .attach<vk::ImageExtent>(256u, 256u)
+                .attach<vk::DoubleBuffered>()
+            .create()
+                .attach<vk::SimBuffer>({.name = "counter", .size = 256})
+                .attach<vk::DoubleBuffered>()
             // Pass 0: Once seed, writes both double-buffered images
             .create()
                 .attach<vk::ComputeShader>("shaders/validate/seed.comp.spv")
@@ -82,15 +90,12 @@ public:
                 .attach<vk::ComputeShader>("shaders/validate/count.comp.spv")
                 .attach<vk::Bind>(vk::storage(0, "counter"), vk::storageWrite(1, "counter"))
                 .attach<vk::Dispatch>(1u)
-                .attach<vk::Repeat>(3u)
+                .attach<vk::Repeat>({.count = 3})
             // Pass 5: graphics, no Bind
             .create()
                 .attach<vk::VertexShader>("shaders/gradient/fullscreen.vert.spv")
                 .attach<vk::FragmentShader>("shaders/validate/strip.frag.spv")
-                .attach<vk::PipelineState>(
-                    VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST, VkCullModeFlags(VK_CULL_MODE_NONE),
-                    VK_FRONT_FACE_COUNTER_CLOCKWISE, true
-                )
+                .attach<vk::PipelineState>({.blendEnable = true})
                 .attach<vk::PushConstants>(initial)
             // Pass 6: display, binds both fields and the buffer (3 double-buffered resources, 8 sets)
             .create()
@@ -99,21 +104,15 @@ public:
                 .attach<vk::Bind>(
                     vk::sample(0, "fieldA"), vk::sample(1, "fieldB"), vk::storage(2, "counter")
                 )
-                .attach<vk::PipelineState>(
-                    VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST, VkCullModeFlags(VK_CULL_MODE_NONE),
-                    VK_FRONT_FACE_COUNTER_CLOCKWISE, true
-                )
+                .attach<vk::PipelineState>({.blendEnable = true})
                 .attach<vk::PushConstants>(initial)
             // Pass 7: hot reload target. Graphics, no Bind, drawn last (on top): a
             // 96 px pulsing swatch in the top-right corner. Edit reload.frag while
             // the program runs; push constants keep working after a reload
             .create()
-                .attach<vk::VertexShader>("shaders/gradient/fullscreen.vert.spv")
-                .attach<vk::FragmentShader>("shaders/validate/reload.frag.spv")
-                .attach<vk::PipelineState>(
-                    VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST, VkCullModeFlags(VK_CULL_MODE_NONE),
-                    VK_FRONT_FACE_COUNTER_CLOCKWISE, true
-                )
+                .attach<vk::VertexShader>( "shaders/gradient/fullscreen.vert.spv")
+                .attach<vk::FragmentShader>( "shaders/validate/reload.frag.spv")
+                .attach<vk::PipelineState>({.blendEnable = true})
                 .attach<vk::PushConstants>(initial);
     }
 };
