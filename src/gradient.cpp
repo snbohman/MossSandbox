@@ -27,10 +27,7 @@ public:
         const f32 width  = static_cast<f32>(core.drawImage.imageExtent.width);
         const f32 height = static_cast<f32>(core.drawImage.imageExtent.height);
 
-        auto rows = cmd::Query<
-            With<vk::PushConstants>,
-            cmd::View<Include<vk::PushConstants>>
-        >::init(key).atlas();
+        auto rows = cmd::Query<With<vk::PushConstants>>::init(key).atlas();
 
         for (auto [pc] : rows) {
             GradientParams& params = pc.as<GradientParams>();
@@ -49,8 +46,8 @@ public:
         mirror
             .connect<vk::Core, vk::FrameBegin, TimeSystem, vk::PassSystem, vk::FrameEnd>()
             .create()
-                .attach<vk::WindowSettings>("moss", 1280, 720, 60, true)   // resizable
-                .attach<vk::RendererSettings>(true)
+                .attach<vk::WindowSettings>({.title = "moss", .resize = true})
+                .attach<vk::RendererSettings>()
             .create()   // one graphics pass: vertex + fragment, no Bind, no Dispatch
                 .attach<vk::VertexShader>("shaders/gradient/fullscreen.vert.spv")
                 .attach<vk::FragmentShader>("shaders/gradient/gradient.frag.spv")

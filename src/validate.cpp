@@ -17,11 +17,7 @@ class ParamsSystem : public System {
 public:
     void tick(const Key<key::READ>& key) override {
         vk::RenderCore& core = cmd::Resource<vk::RenderCore>::init(key).get();
-
-        auto rows = cmd::Query<
-            With<vk::PushConstants>,
-            cmd::View<Include<vk::PushConstants>>
-        >::init(key).atlas();
+        auto rows = cmd::Query<With<vk::PushConstants>>::init(key).atlas();
 
         for (auto [pc] : rows) {
             Params& params = pc.as<Params>();
